@@ -1,3 +1,1 @@
-"# wsb_jpa"
-
-.
+"# wsb_jpa" 

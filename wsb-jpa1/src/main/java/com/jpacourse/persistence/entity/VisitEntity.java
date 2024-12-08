@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +22,23 @@ public class VisitEntity {
 
 	@Column(nullable = false)
 	private LocalDateTime time;
+
+	/* ZWIĄZEK DWUKIERUNKOWY LECZENIE-WIZYTA
+	* Rodzicem jest MedicalTreatmentEntity
+	* Dzieckiem jest VisitEntity
+	* Relacja dwukierunkowa
+	*/
+	@OneToOne(mappedBy = "visit")
+	private MedicalTreatmentEntity medicalTreatment;
+
+	//GETTERY I SETTERY RELACJI WIZYTA-LECZENIE
+    public MedicalTreatmentEntity getMedicalTreatment() {
+        return medicalTreatment;
+    }
+
+    public void setMedicalTreatment(MedicalTreatmentEntity medicalTreatment) {
+        this.medicalTreatment = medicalTreatment;
+    }
 
 	public Long getId() {
 		return id;

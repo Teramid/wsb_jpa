@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,6 +25,23 @@ public class MedicalTreatmentEntity {
 
 	@Enumerated(EnumType.STRING)
 	private TreatmentType type;
+
+	/* ZWIĄZEK DWUKIERUNKOWY LECZENIE-WIZYTA
+	* Rodzicem jest MedicalTreatmentEntity
+	* Dzieckiem jest VisitEntity
+	* Relacja dwukierunkowa
+	*/
+	@OneToOne
+	private VisitEntity visit;
+
+	// GETTERY I SETTERY dla związku wizyta-leczenie
+	public VisitEntity getVisit() {
+		return visit;
+	}
+
+	public void setVisit(VisitEntity visit) {
+		this.visit = visit;
+    }
 
 	public Long getId() {
 		return id;

@@ -2,13 +2,19 @@ package com.jpacourse.persistence.entity;
 
 import com.jpacourse.persistence.enums.Specialization;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,7 +25,7 @@ public class DoctorEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String firstName;
 
 	@Column(nullable = false)
@@ -36,6 +42,41 @@ public class DoctorEntity {
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Specialization specialization;
+
+	/* ZWIĄZEK JEDNOKIERUNKOWY DOKTOR-WIZYTA
+	* Rodzicem jest Doktor
+	* Dzieckiem jest Wizyta
+	* Relacja jednokierunkowa od strony rodzica
+	*/
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "DOCTOR_ID")
+    private List<VisitEntity> visits;
+
+	// GETTER I SETTER
+	public List<VisitEntity> getVisits() {
+        return visits;
+    }
+
+	public void setVisits(List<VisitEntity> visits) {
+        this.visits = visits;
+    }
+
+	/* ZWIĄZEK DWUKIERUNKOWY DOKTOR-ADRESY
+	* Rodzicem jest DoctorEntity
+	* Dzieckiem jest AddressEntity
+	* Relacja dwukierunkowa
+	*/
+	@OneToMany(mappedBy = "doctor")
+	private List<AddressEntity> addresses;
+
+	// GETTERY I SETTERY DO RELACJI DOKTOR-ADRESY
+	public List<AddressEntity> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<AddressEntity> addresses) {
+        this.addresses = addresses;
+    }
 
 	public Long getId() {
 		return id;
