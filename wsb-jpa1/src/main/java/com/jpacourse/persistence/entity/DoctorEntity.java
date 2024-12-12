@@ -2,136 +2,129 @@ package com.jpacourse.persistence.entity;
 
 import com.jpacourse.persistence.enums.Specialization;
 
-import java.util.List;
+import java.util.Collection;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "DOCTOR")
+@Table(name = "doctor")
 public class DoctorEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(nullable = true)
-	private String firstName;
+    @Column(nullable = true)
+    private String firstName;
 
-	@Column(nullable = false)
-	private String lastName;
+    @Column(nullable = false)
+    private String lastName;
 
-	@Column(nullable = false)
-	private String telephoneNumber;
+    @Column(nullable = false)
+    private String telephoneNumber;
 
-	private String email;
+    @Column(nullable = false)
+    private String email;
 
-	@Column(nullable = false)
-	private String doctorNumber;
+    @Column(nullable = false)
+    private String doctorNumber;
 
-	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private Specialization specialization;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Specialization specialization;
 
-	/* ZWIĄZEK JEDNOKIERUNKOWY DOKTOR-WIZYTA
-	* Rodzicem jest Doktor
-	* Dzieckiem jest Wizyta
-	* Relacja jednokierunkowa od strony rodzica
-	*/
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "DOCTOR_ID")
-    private List<VisitEntity> visits;
+    // ZWIĄZEK DWUKIERUNKOWY DOKTOR-WIZYTA
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Collection<VisitEntity> visits;
 
-	// GETTER I SETTER
-	public List<VisitEntity> getVisits() {
+    // ZWIĄZEK JEDNOKIERUNKOWA DOKTOR-ADRES
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
+    private AddressEntity address;
+
+    // GETTER I SETTER
+    public Collection<VisitEntity> getVisits() {
         return visits;
     }
 
-	public void setVisits(List<VisitEntity> visits) {
-        this.visits = visits;
+    public void addVisit(VisitEntity visit) {
+        visits.add(visit);
+
+        if (visit.getDoctor() != this) {
+            visit.setDoctor(this);
+        }
     }
 
-	/* ZWIĄZEK DWUKIERUNKOWY DOKTOR-ADRESY
-	* Rodzicem jest DoctorEntity
-	* Dzieckiem jest AddressEntity
-	* Relacja dwukierunkowa
-	*/
-	@OneToMany(mappedBy = "doctor")
-	private List<AddressEntity> addresses;
+    public void removeVisit(VisitEntity visit) {
+        visits.remove(visit);
 
-	// GETTERY I SETTERY DO RELACJI DOKTOR-ADRESY
-	public List<AddressEntity> getAddresses() {
-        return addresses;
+        if (visit.getDoctor() == this) {
+            visit.setDoctor(null);
+        }
     }
 
-    public void setAddresses(List<AddressEntity> addresses) {
-        this.addresses = addresses;
+    public AddressEntity getAddress() {
+        return address;
     }
 
-	public Long getId() {
-		return id;
-	}
+    public void setAddress(AddressEntity address) {
+        this.address = address;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public String getTelephoneNumber() {
-		return telephoneNumber;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public void setTelephoneNumber(String telephoneNumber) {
-		this.telephoneNumber = telephoneNumber;
-	}
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getDoctorNumber() {
-		return doctorNumber;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setDoctorNumber(String doctorNumber) {
-		this.doctorNumber = doctorNumber;
-	}
+    public String getDoctorNumber() {
+        return doctorNumber;
+    }
 
-	public Specialization getSpecialization() {
-		return specialization;
-	}
+    public void setDoctorNumber(String doctorNumber) {
+        this.doctorNumber = doctorNumber;
+    }
 
-	public void setSpecialization(Specialization specialization) {
-		this.specialization = specialization;
-	}
+    public Specialization getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(Specialization specialization) {
+        this.specialization = specialization;
+    }
 
 }
