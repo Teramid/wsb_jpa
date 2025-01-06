@@ -37,7 +37,7 @@ public class VisitEntity {
         return doctor;
     }
 
-    void setDoctor(DoctorEntity doctor) {
+    public void setDoctor(DoctorEntity doctor) {
         this.doctor = doctor;
     }
 
@@ -45,7 +45,7 @@ public class VisitEntity {
         return patient;
     }
 
-    void setPatient(PatientEntity patient) {
+    public void setPatient(PatientEntity patient) {
         this.patient = patient;
     }
 
