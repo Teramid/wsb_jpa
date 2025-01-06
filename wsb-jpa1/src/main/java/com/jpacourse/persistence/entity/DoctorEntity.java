@@ -34,7 +34,7 @@ public class DoctorEntity {
     private Specialization specialization;
 
     // ZWIĄZEK DWUKIERUNKOWY DOKTOR-WIZYTA
-    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "doctor", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
     private Collection<VisitEntity> visits;
 
     // ZWIĄZEK JEDNOKIERUNKOWA DOKTOR-ADRES

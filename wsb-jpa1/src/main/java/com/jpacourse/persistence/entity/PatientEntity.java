@@ -44,6 +44,9 @@ public class PatientEntity {
     @Column(nullable = false)
     private LocalDate dateOfBirth;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private Boolean isAllergic;
+
     // ZWIĄZEK DWUKIERUNKOWY PACJENT-WIZYTY
     @OneToMany(mappedBy = "patient", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
     private Collection<VisitEntity> visits;
@@ -138,5 +141,14 @@ public class PatientEntity {
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
+
+    public Boolean getIsAllergic() {
+        return isAllergic;
+    }
+
+    public void setIsAllergic(Boolean isAllergic) {
+        this.isAllergic = isAllergic;
+    }
+
 
 }
