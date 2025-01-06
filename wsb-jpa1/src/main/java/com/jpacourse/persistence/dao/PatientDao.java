@@ -9,5 +9,7 @@ public interface PatientDao extends Dao<PatientEntity, Long>
 
     PatientEntity findPatientbyId(long id);
 
+    void deletePatientAndVisits(Long patientId);
+
 
 }

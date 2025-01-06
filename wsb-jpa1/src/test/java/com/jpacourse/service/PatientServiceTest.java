@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-class PatientServiceTest {
+public class PatientServiceTest {
 
     @Autowired
     private PatientService patientService;
@@ -34,17 +34,16 @@ class PatientServiceTest {
 
         // Given
 
-        //patientService.getPatient(1L).isNotNull();
         assertThat(patientService.findPatientById(1L))
             .as("Patient with ID 1 should exist")
             .isNotNull();
-        //int visitCount = visitDao.findall().size();
         int doctorCount = doctorDao.findAll().size();
 
         // When
         patientService.deletePatientById(1L);
 
         //then
+        assertThat(patientService.findPatientById(1L)).isNull();
         assertThat(visitDao.findByPatientId(1L)).isEmpty(); //Sprawdzenie czy wizyty pacjenta zostały usunięte
         assertThat(doctorDao.findAll().size()).isEqualTo(doctorCount); //Sprawdzenie czy ilosc doktorow sie nie zmieniła
 

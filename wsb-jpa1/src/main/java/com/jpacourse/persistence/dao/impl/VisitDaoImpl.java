@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class VisitDaoImpl extends AbstractDao<VisitEntity, Long> implements VisitDao {
 
+    @Override
     public List<VisitEntity> findByPatientId(Long patientId) {
         return entityManager
                 .createQuery("SELECT v FROM VisitEntity v WHERE v.patient.id = :patientId", VisitEntity.class)
@@ -18,6 +19,13 @@ public class VisitDaoImpl extends AbstractDao<VisitEntity, Long> implements Visi
                 .getResultList();
     }
 
+    @Override
+    public void removeVisitsByPatientId(Long patientId) {
+        entityManager
+                .createQuery("DELETE FROM VisitEntity v WHERE v.patient.id = :patientId")
+                .setParameter("patientId", patientId)
+                .executeUpdate();
+    }
 
 
 }

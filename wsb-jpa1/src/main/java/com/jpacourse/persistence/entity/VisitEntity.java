@@ -86,4 +86,5 @@ public class VisitEntity {
     public void setTime(LocalDateTime time) {
         this.time = time;
     }
+
 }

@@ -24,22 +24,12 @@ public class PatientServiceImpl implements PatientService {
     @Transactional(readOnly = true)
     public PatientTO findPatientById(Long id) {
         final PatientEntity entity = patientDao.findOne(id);
-        System.out.println("Retrieved PatientEntity: " + entity);
-        if (entity == null) {
-            throw new IllegalArgumentException("Patient with ID " + id + " not found");
-        }
-        PatientTO patientTO = PatientMapper.mapToTO(entity);
-        if (patientTO == null) {
-            throw new IllegalStateException("Mapping of PatientEntity to PatientTO failed");
-        }
-        System.out.println("Mapped PatientTO: " + patientTO);
-        return patientTO;
-
+        return PatientMapper.mapToTO(entity);
     }
 
     @Override
     public void deletePatientById(Long id) {
-        patientDao.delete(id);
+        patientDao.deletePatientAndVisits(id);
     }
 
     @Override
