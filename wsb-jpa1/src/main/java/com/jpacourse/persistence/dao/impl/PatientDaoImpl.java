@@ -28,7 +28,9 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
     }
     @Override
     public PatientEntity findPatientbyId(long id) {
-        return findOne(id);
+        return entityManager.find(PatientEntity.class, id);
     }
-    
+
+
+
 }

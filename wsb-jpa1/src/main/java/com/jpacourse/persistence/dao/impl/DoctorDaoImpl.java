@@ -8,4 +8,10 @@ import org.springframework.stereotype.Repository;
 
 public class DoctorDaoImpl extends AbstractDao<DoctorEntity, Long> implements DoctorDao {
 
+    public DoctorEntity findDoctorById(long id)
+    {
+        return entityManager.find(DoctorEntity.class, id);
+    }
+
+
 }

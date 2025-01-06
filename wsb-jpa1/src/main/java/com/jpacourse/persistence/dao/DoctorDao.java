@@ -8,4 +8,6 @@ public interface DoctorDao extends Dao<DoctorEntity, Long>
 {
     //findall
     List<DoctorEntity> findAll();
+
+    DoctorEntity findDoctorById(long id);
 }
