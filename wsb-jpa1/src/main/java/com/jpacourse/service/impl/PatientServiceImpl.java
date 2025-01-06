@@ -24,8 +24,35 @@ public class PatientServiceImpl implements PatientService {
     @Transactional(readOnly = true)
     public PatientTO findPatientById(Long id) {
         final PatientEntity entity = patientDao.findOne(id);
-        return PatientMapper.mapToTO(entity);
+        System.out.println("Retrieved PatientEntity: " + entity);
+        if (entity == null) {
+            throw new IllegalArgumentException("Patient with ID " + id + " not found");
+        }
+        PatientTO patientTO = PatientMapper.mapToTO(entity);
+        if (patientTO == null) {
+            throw new IllegalStateException("Mapping of PatientEntity to PatientTO failed");
+        }
+        System.out.println("Mapped PatientTO: " + patientTO);
+        return patientTO;
 
+    }
+
+    @Override
+    public void deletePatientById(Long id) {
+        patientDao.delete(id);
+    }
+
+    @Override
+    public void savePatient(PatientTO patientTO) {
+        PatientEntity entity = PatientMapper.mapToEntity(patientTO);
+        patientDao.save(entity);
+    }
+
+
+    @Override
+    public void updatePatient(PatientTO patientTO) {
+        PatientEntity entity = PatientMapper.mapToEntity(patientTO);
+        patientDao.update(entity);
     }
 
 }
