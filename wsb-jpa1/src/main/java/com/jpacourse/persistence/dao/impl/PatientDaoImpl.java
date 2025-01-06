@@ -7,4 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements PatientDao {
 
+    @Override
+    public PatientEntity findPatientbyId(long id) {
+        return findOne(id);
+    }
 }
