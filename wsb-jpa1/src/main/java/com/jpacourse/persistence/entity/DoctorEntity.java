@@ -5,6 +5,7 @@ import com.jpacourse.persistence.enums.Specialization;
 import java.util.Collection;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "doctor")
@@ -35,7 +36,7 @@ public class DoctorEntity {
 
     // ZWIĄZEK DWUKIERUNKOWY DOKTOR-WIZYTA
     @OneToMany(mappedBy = "doctor", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Collection<VisitEntity> visits;
+    private Collection<VisitEntity> visits = new ArrayList<>();
 
     // ZWIĄZEK JEDNOKIERUNKOWA DOKTOR-ADRES
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

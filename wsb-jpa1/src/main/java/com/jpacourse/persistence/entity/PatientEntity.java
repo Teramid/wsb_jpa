@@ -16,6 +16,7 @@ import javax.persistence.Table;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
 
 // import antlr.collections.List;
 
@@ -49,7 +50,7 @@ public class PatientEntity {
 
     // ZWIĄZEK DWUKIERUNKOWY PACJENT-WIZYTY
     @OneToMany(mappedBy = "patient", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
-    private Collection<VisitEntity> visits;
+    private Collection<VisitEntity> visits = new ArrayList<>();
 
     // GETTER I SETTER
     public Collection<VisitEntity> getVisits() {
