@@ -1,14 +1,22 @@
 package com.jpacourse.service;
 
 import com.jpacourse.dto.PatientTO;
+import com.jpacourse.persistence.dao.PatientDao;
 import com.jpacourse.persistence.dao.DoctorDao;
 import com.jpacourse.persistence.dao.VisitDao;
+import com.jpacourse.persistence.entity.PatientEntity;
+import com.jpacourse.persistence.entity.VisitEntity;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @SpringBootTest
@@ -24,6 +32,8 @@ public class PatientServiceTest {
     @Autowired
     private DoctorDao doctorDao;
 
+    @Autowired
+    private PatientDao patientDao;
 
 
     @Test
@@ -66,6 +76,35 @@ public class PatientServiceTest {
         assertThat(patient.getLastName()).isEqualTo("Nowicki");
         assertThat(patient.getPatientNumber()).isEqualTo("P001");
         assertThat(patient.getTelephoneNumber()).isEqualTo("600111222");
+
+    }
+
+    @Test
+    public void testShouldFindVisitByPatientId() {
+
+        //Given
+        PatientEntity patient = new PatientEntity();
+        patient.setFirstName("Adam");
+        patient.setLastName("Test");
+        patient.setTelephoneNumber("123456789");
+        patient.setEmail("A.Kowalski@email.com");
+        patient.setPatientNumber("123456");
+        patient.setDateOfBirth(LocalDate.of(1990, 1, 1));
+        patient.setIsAllergic(false);
+        patientDao.save(patient);
+
+        patientDao.addVisitToPatient(patient.getId(), 1L, LocalDateTime.of(2025, 1, 5, 11, 12, 12), "test description1");
+        patientDao.addVisitToPatient(patient.getId(), 2L, LocalDateTime.of(2026, 1, 5, 11, 12, 12), "test description2");
+
+        //When
+
+        List<VisitEntity> foundVisit = visitDao.findByPatientId(patient.getId());
+
+        //Then
+
+        assertThat(foundVisit).isNotNull();
+        assertThat(foundVisit.size()).isEqualTo(2);
+        assertThat(foundVisit.get(0).getPatient().getId()).isEqualTo(patient.getId());
 
     }
 
