@@ -45,7 +45,6 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
         PatientEntity patient = findPatientbyId(patientId);
         if (patient != null){
             entityManager.remove(patient);
-            visitDao.removeVisitsByPatientId(patientId);
 
         }
     }

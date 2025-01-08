@@ -24,6 +24,9 @@ public class PatientServiceImpl implements PatientService {
     @Transactional(readOnly = true)
     public PatientTO findPatientById(Long id) {
         final PatientEntity entity = patientDao.findOne(id);
+        if (entity == null) {
+            return null;
+        }
         return PatientMapper.mapToTO(entity);
     }
 

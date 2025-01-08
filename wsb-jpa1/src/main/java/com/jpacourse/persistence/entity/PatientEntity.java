@@ -48,7 +48,7 @@ public class PatientEntity {
     private Boolean isAllergic;
 
     // ZWIĄZEK DWUKIERUNKOWY PACJENT-WIZYTY
-    @OneToMany(mappedBy = "patient", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "patient", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private Collection<VisitEntity> visits;
 
     // GETTER I SETTER

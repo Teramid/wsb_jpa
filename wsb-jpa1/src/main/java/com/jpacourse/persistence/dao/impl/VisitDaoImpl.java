@@ -19,13 +19,5 @@ public class VisitDaoImpl extends AbstractDao<VisitEntity, Long> implements Visi
                 .getResultList();
     }
 
-    @Override
-    public void removeVisitsByPatientId(Long patientId) {
-        entityManager
-                .createQuery("DELETE FROM VisitEntity v WHERE v.patient.id = :patientId")
-                .setParameter("patientId", patientId)
-                .executeUpdate();
-    }
-
 
 }
